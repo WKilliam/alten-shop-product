@@ -1,0 +1,29 @@
+.breadcrumb-container {
+  display: flex;
+  align-items: center;
+  font-family: var(--fontFamilyLato);
+  font-size: 14px;
+  color: var(--primary-font-color);
+
+  .breadcrumb-item {
+    font-family: var(--fontFamilyQuicksand);
+    text-decoration: none;
+    color: var(--primary-color);
+    margin-right: 8px;
+    font-weight: normal;
+
+    &.last {
+      font-weight: bold;
+      color: var(--secondary-font-color);
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .breadcrumb-separator {
+    margin-right: 8px;
+    color: var(--text-muted-color);
+  }
+}

@@ -1,0 +1,41 @@
+.main-content {
+  margin-left: 60px;
+  padding: 8px;
+  background-color: var(--primary-bg-color);
+  transition: margin-left 0.3s ease;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .navbar-content {
+    flex: 0 0 auto;
+    margin-top: 1rem;
+    padding: 0 10px 0 10px;
+    position: relative;
+  }
+
+  .breadcrumb-content {
+    flex: 0 0 auto;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: left;
+  }
+
+  .page-content {
+    flex: 1 0 auto;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: left;
+    overflow-y: auto;
+    background-color: var(--primary-bg-color-light);
+  }
+
+  &.expanded {
+    margin-left: 260px;
+  }
+
+  @media (max-width: 768px) {
+    margin-left: 60px;
+    padding: 10px;
+  }
+}
