@@ -1,7 +1,6 @@
 /front/node_modules
 /back/api-java/target
 /.idea
-/back/datas/api.db
 /front/.angular
 front/.angular
 front/.idea
