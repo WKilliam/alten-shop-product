@@ -4,7 +4,12 @@ import {any} from 'codelyzer/util/function';
 
 @Component({
   selector: 'app-product',
-  templateUrl: './product.component.html',
+  template: `
+    <div class="features-product-container">
+      <app-ui-filter-tab class="filter-content"></app-ui-filter-tab>
+      <app-ui-table [page]="0" [link]="null" class="table-content"></app-ui-table>
+    </div>
+  `,
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
@@ -15,10 +20,7 @@ export class ProductComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.http.getProducts(0).subscribe((data) => {
-      console.log(data);
-      this.data = data;
-    });
+
   }
 
 }

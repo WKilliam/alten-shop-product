@@ -16,7 +16,7 @@ import { GENERAL } from '../../constant/GENERAL';
          data-expanded-only>
       </i>
       <div class="title-container" [routerLink]="'/'">
-        <img src="favicon.ico" height="25">
+        <img src="favicon.ico" height="25" alt="">
         <div class="title" data-expanded-only>
           <span class="first">{{ general.getText('SIDENAV_TITLE') }}</span>
         </div>

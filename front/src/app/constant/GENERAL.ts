@@ -34,11 +34,22 @@ export class GENERAL {
     ]]
   ]);
 
+  private textArraySortBy = [
+    'Name',
+    'Price',
+    'Category',
+    'Inventory Status'
+  ];
+
   getText(key: string): string {
     return this.textMap.get(key);
   }
 
   getObject(key: string): any {
     return this.objectMap.get(key);
+  }
+
+  getTextArraySortBy(): string[] {
+    return this.textArraySortBy;
   }
 }

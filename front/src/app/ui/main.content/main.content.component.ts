@@ -14,7 +14,6 @@ import {GENERAL} from '../../constant/GENERAL';
       <div class="page-content" >
         <router-outlet></router-outlet>
       </div>
-
     </div>
   `,
   styleUrls: ['./main.content.component.scss']

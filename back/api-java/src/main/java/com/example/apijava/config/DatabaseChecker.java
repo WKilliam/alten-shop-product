@@ -51,7 +51,7 @@ public class DatabaseChecker implements CommandLineRunner {
     private void executeSimpleSqlCommand() {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
-            String sql = "SELECT * FROM product";
+            String sql = "SELECT * FROM products";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 Long id = resultSet.getLong("id");

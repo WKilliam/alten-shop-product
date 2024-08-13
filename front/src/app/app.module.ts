@@ -13,9 +13,23 @@ import { ProductAdminComponent } from './features/product.admin/product.admin.co
 import { SidenavComponent } from './ui/sidenav/sidenav.component';
 import { MainContentComponent } from './ui/main.content/main.content.component';
 import { BreadcrumbComponent } from './ui/breadcrumb/breadcrumb.component';
+import { FilterTabComponent } from './ui/filter.tab/filter.tab.component';
+import { TableComponent } from './ui/table/table.component';
+import { CardProductComponent } from './ui/card.product/card.product.component';
+import { BandProductComponent } from './ui/band.product/band.product.component';
 
 @NgModule({
-  declarations: [AppComponent, ProductComponent, ProductAdminComponent, SidenavComponent, MainContentComponent, BreadcrumbComponent],
+  declarations: [
+    AppComponent,
+    ProductComponent,
+    ProductAdminComponent,
+    SidenavComponent,
+    MainContentComponent,
+    BreadcrumbComponent,
+    FilterTabComponent,
+    TableComponent,
+    CardProductComponent,
+    BandProductComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

@@ -1,0 +1,32 @@
+<div class="toolbar">
+  <div class="left-content">
+    <select id="sort" class="form-control">
+      <option value="" disabled selected>Sort By</option>
+      <option value="name" *ngFor="let option of options">{{option}}</option>
+    </select>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="search-form">
+      <label>
+        <i class="pi pi-search search-icon"></i>
+        <input
+          type="search"
+          formControlName="search"
+          class="search-input"
+          [placeholder]="'Search'"
+        >
+      </label>
+    </form>
+  </div>
+  <div class="right-content">
+    <label class="switch">
+      <input class="switch-input" type="checkbox" (change)="toggleView()">
+      <div class="switch-button">
+        <span class="switch-button-left">
+          <i class="pi pi-bars"></i>
+        </span>
+        <span class="switch-button-right">
+          <i class="pi pi-th-large"></i>
+        </span>
+      </div>
+    </label>
+  </div>
+</div>
