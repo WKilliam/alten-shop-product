@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {FilterService} from '../../services/filter/filter.service';
 import {GENERAL} from '../../constant/GENERAL';
+import {DataManagerService} from '../../services/data.manager/data.manager.service';
+
 
 @Component({
   selector: 'app-ui-filter-tab',
@@ -12,21 +13,30 @@ export class FilterTabComponent implements OnInit {
 
   form: FormGroup = new FormGroup({
     search: new FormControl(''),
+    sort: new FormControl(''),
   });
   isGridView = true;
   protected options = new GENERAL().getTextArraySortBy();
 
-  constructor(private readonly filterService: FilterService) {
-  }
+  constructor(private readonly dataManager: DataManagerService) {}
 
   ngOnInit(): void {
-  }
 
-  onSubmit() {
-    console.log('Submit');
+    this.form.get('sort')?.valueChanges.subscribe((value) => {
+      console.log('Sort changed:', value);
+      this.dataManager.setUrlSearch(value);
+    });
+    this.form.get('search')?.valueChanges.subscribe((value) => {
+      console.log('Search changed:', value);
+      this.dataManager.setSearch(value);
+    });
   }
 
   toggleView() {
-    this.isGridView = !this.isGridView;
+    this.dataManager.setViewMode(!this.isGridView);
+    this.dataManager.getViewMode().subscribe((value) => {
+      this.isGridView = value;
+    });
   }
+
 }

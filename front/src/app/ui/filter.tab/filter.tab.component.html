@@ -1,10 +1,10 @@
 <div class="toolbar">
-  <div class="left-content">
-    <select id="sort" class="form-control">
+  <form class="left-content" [formGroup]="form">
+    <select id="sort" class="form-control" formControlName="sort">
       <option value="" disabled selected>Sort By</option>
-      <option value="name" *ngFor="let option of options">{{option}}</option>
+      <option [value]="option.url" *ngFor="let option of options">{{option.label}}</option>
     </select>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="search-form">
+    <div class="search-form">
       <label>
         <i class="pi pi-search search-icon"></i>
         <input
@@ -14,17 +14,17 @@
           [placeholder]="'Search'"
         >
       </label>
-    </form>
-  </div>
+    </div>
+  </form>
   <div class="right-content">
     <label class="switch">
       <input class="switch-input" type="checkbox" (change)="toggleView()">
       <div class="switch-button">
         <span class="switch-button-left">
-          <i class="pi pi-bars"></i>
+          <i class="pi pi-th-large"></i>
         </span>
         <span class="switch-button-right">
-          <i class="pi pi-th-large"></i>
+          <i class="pi pi-bars"></i>
         </span>
       </div>
     </label>

@@ -14,31 +14,37 @@ export class GENERAL {
 
   private objectMap = new Map<string, any>([
     // Sidenav
-    ['SIDENAV_ITEMS', [
-      {
-        label: {
-          en: 'Products',
-          fr: 'Produits'
+    ['SIDENAV_ITEMS',
+      [
+        {
+          label: {
+            en: 'Products',
+            fr: 'Produits'
+          },
+          link: '/products',
+          icon: 'shopping-cart'
         },
-        link: '/products',
-        icon: 'shopping-cart'
-      },
-      {
-        label: {
-          en: 'Product Admin Panel',
-          fr: 'Panneau d\'administration des produits'
-        },
-        link: '/admin/products',
-        icon: 'cog'
-      }
-    ]]
+        {
+          label: {
+            en: 'Product Admin Panel',
+            fr: 'Panneau d\'administration des produits'
+          },
+          link: '/admin/products',
+          icon: 'cog'
+        }
+      ]
+    ]
   ]);
 
+
   private textArraySortBy = [
-    'Name',
-    'Price',
-    'Category',
-    'Inventory Status'
+    { label: 'Code', url: 'code' },
+    { label: 'Name', url: 'name' },
+    { label: 'Price', url: 'price' },
+    { label: 'Category', url: 'category' },
+    { label: 'Quantity', url: 'quantity' },
+    { label: 'Inventory Status', url: 'inventory-status' },
+    { label: 'Rating', url: 'rating' }
   ];
 
   getText(key: string): string {
@@ -49,7 +55,7 @@ export class GENERAL {
     return this.objectMap.get(key);
   }
 
-  getTextArraySortBy(): string[] {
+  getTextArraySortBy(): Array<{ label: string, url: string }> {
     return this.textArraySortBy;
   }
 }

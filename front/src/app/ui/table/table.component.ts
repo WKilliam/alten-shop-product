@@ -1,36 +1,44 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { HttpService } from '../../core/http/http';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { ProductModels } from '../../models/product/product.models';
 import { ResponseModel } from '../../models/response/response';
-import {FilterService} from '../../services/filter/filter.service';
+import {DataManagerService} from '../../services/data.manager/data.manager.service';
 
 @Component({
   selector: 'app-ui-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnChanges {
+export class TableComponent implements OnChanges , OnInit{
 
-  @Input() page = 0;
-  @Input() link = '';
-  @Input() displayMode = false;
+  @Input() data;
+  page = 0;
+  displayMode = true;
   private itemsElementsCount =  5;
   products: ProductModels[] = [];
 
-  constructor(private readonly http: HttpService, private readonly filterService: FilterService) { }
+  constructor(
+    private readonly dataManager: DataManagerService
+  ) { }
+
+  ngOnInit(): void {
+    this.products = this.data.data;
+    this.page = this.data.page;
+    this.dataManager.setCurrentPage(this.page);
+    this.dataManager.setTotalPages(this.data.totalPages);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.page || changes.link) {
-      this.fetchProducts();
-    }
-  }
-
-  private fetchProducts(): void {
-    const instanceItems = this.displayMode ? 20 : 40;
-    this.http.getProducts(this.page, instanceItems).subscribe((data: ResponseModel) => {
-      this.products = data.data;
+    this.dataManager.getViewMode().subscribe((value) => {
+      this.displayMode = value;
     });
   }
+
+  // private fetchProducts(): void {
+  //   const instanceItems = this.displayMode ? 20 : 40;
+  //   this.http.getProducts(this.page, instanceItems).subscribe((data: ResponseModel) => {
+  //     this.products = data.data;
+  //   });
+  // }
 
   getRows(products: ProductModels[]): ProductModels[][] {
     const rows: ProductModels[][] = [];
@@ -39,4 +47,8 @@ export class TableComponent implements OnChanges {
     }
     return rows;
   }
+
+
+
+
 }

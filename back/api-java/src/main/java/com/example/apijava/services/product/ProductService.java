@@ -4,11 +4,11 @@ import com.example.apijava.dto.product.ProductDTO;
 import com.example.apijava.mappers.product.ProductMapper;
 import com.example.apijava.models.product.ProductModel;
 import com.example.apijava.repositories.product.ProductRepository;
+import com.example.apijava.utils.pageresult.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -21,63 +21,95 @@ public class ProductService {
     @Autowired
     private ProductMapper productMapper;
 
-    public List<ProductDTO> findAll(Pageable pageable) {
+    public PageResult<ProductDTO> findAll(Pageable pageable) {
         Page<ProductModel> products = productRepository.findAllProducts(pageable);
-        return products.stream()
-                .map(productMapper::toDTO)
-                .collect(Collectors.toList());
+        return new PageResult<>(
+                products.stream()
+                        .map(productMapper::toDTO)
+                        .collect(Collectors.toList()),
+                products.getNumber() + 1,
+                products.getTotalPages()
+        );
     }
 
     public Optional<ProductDTO> findById(Long id) {
         return productRepository.findById(id).map(productMapper::toDTO);
     }
 
-    public List<ProductDTO> findByCode(String code,Pageable pageable) {
+    public PageResult<ProductDTO> findByCode(String code, Pageable pageable) {
         Page<ProductModel> products = productRepository.findByCode(code, pageable);
-        return products.stream()
-                .map(productMapper::toDTO)
-                .collect(Collectors.toList());
+        return new PageResult<>(
+                products.stream()
+                        .map(productMapper::toDTO)
+                        .collect(Collectors.toList()),
+                products.getNumber() + 1,
+                products.getTotalPages()
+        );
     }
 
-    public List<ProductDTO> findByName(String name, Pageable pageable) {
+    public PageResult<ProductDTO> findByName(String name, Pageable pageable) {
         Page<ProductModel> products = productRepository.findByName(name, pageable);
-        return products.stream()
-                .map(productMapper::toDTO)
-                .collect(Collectors.toList());
+        return new PageResult<>(
+                products.stream()
+                        .map(productMapper::toDTO)
+                        .collect(Collectors.toList()),
+                products.getNumber() + 1,
+                products.getTotalPages()
+        );
     }
 
-    public List<ProductDTO> findByPrice(Double price, Pageable pageable) {
+    public PageResult<ProductDTO> findByPrice(Double price, Pageable pageable) {
         Page<ProductModel> products = productRepository.findByPrice(price, pageable);
-        return products.stream()
-                .map(productMapper::toDTO)
-                .collect(Collectors.toList());
+        return new PageResult<>(
+                products.stream()
+                        .map(productMapper::toDTO)
+                        .collect(Collectors.toList()),
+                products.getNumber() + 1,
+                products.getTotalPages()
+        );
     }
 
-    public List<ProductDTO> findByCategory(String category, Pageable pageable) {
+    public PageResult<ProductDTO> findByCategory(String category, Pageable pageable) {
         Page<ProductModel> products = productRepository.findByCategory(category, pageable);
-        return products.stream()
-                .map(productMapper::toDTO)
-                .collect(Collectors.toList());
+        return new PageResult<>(
+                products.stream()
+                        .map(productMapper::toDTO)
+                        .collect(Collectors.toList()),
+                products.getNumber() + 1,
+                products.getTotalPages()
+        );
     }
 
-    public List<ProductDTO> findByQuantity(Integer quantity, Pageable pageable) {
+    public PageResult<ProductDTO> findByQuantity(Integer quantity, Pageable pageable) {
         Page<ProductModel> products = productRepository.findByQuantity(quantity, pageable);
-        return products.stream()
-                .map(productMapper::toDTO)
-                .collect(Collectors.toList());
+        return new PageResult<>(
+                products.stream()
+                        .map(productMapper::toDTO)
+                        .collect(Collectors.toList()),
+                products.getNumber() + 1,
+                products.getTotalPages()
+        );
     }
 
-    public List<ProductDTO> findByInventoryStatus(String inventoryStatus, Pageable pageable) {
+    public PageResult<ProductDTO> findByInventoryStatus(String inventoryStatus, Pageable pageable) {
         Page<ProductModel> products = productRepository.findByInventoryStatus(inventoryStatus, pageable);
-        return products.stream()
-                .map(productMapper::toDTO)
-                .collect(Collectors.toList());
+        return new PageResult<>(
+                products.stream()
+                        .map(productMapper::toDTO)
+                        .collect(Collectors.toList()),
+                products.getNumber() + 1,
+                products.getTotalPages()
+        );
     }
 
-    public List<ProductDTO> findByRating(Integer rating, Pageable pageable) {
+    public PageResult<ProductDTO> findByRating(Integer rating, Pageable pageable) {
         Page<ProductModel> products = productRepository.findByRating(rating, pageable);
-        return products.stream()
-                .map(productMapper::toDTO)
-                .collect(Collectors.toList());
+        return new PageResult<>(
+                products.stream()
+                        .map(productMapper::toDTO)
+                        .collect(Collectors.toList()),
+                products.getNumber() + 1,
+                products.getTotalPages()
+        );
     }
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from "rxjs";
-import {ResponseModel} from "../../models/response/response";
+import {ResponseModel} from '../../models/response/response';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +32,13 @@ export class HttpService {
     const params = this.queryParamsConfig(page, size);
     const options = { headers: this.headers, params };
     return this.http.get(this.api, options) as Observable<ResponseModel>;
+  }
+
+  getSortBy(page: number, size: number, sort: string): Observable<ResponseModel>{
+    const params = this.queryParamsConfig(page, size);
+    params.append('sort', sort);
+    const options = { headers: this.headers, params };
+    return this.http.get(`${this.api}/search/${sort}`, options) as Observable<ResponseModel>;
   }
 
 }

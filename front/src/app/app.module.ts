@@ -17,6 +17,8 @@ import { FilterTabComponent } from './ui/filter.tab/filter.tab.component';
 import { TableComponent } from './ui/table/table.component';
 import { CardProductComponent } from './ui/card.product/card.product.component';
 import { BandProductComponent } from './ui/band.product/band.product.component';
+import { PaginationComponent } from './ui/pagination/pagination.component';
+import { SpinnerLoadingComponent } from './ui/spinner-loading/spinner-loading.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,10 @@ import { BandProductComponent } from './ui/band.product/band.product.component';
     FilterTabComponent,
     TableComponent,
     CardProductComponent,
-    BandProductComponent],
+    BandProductComponent,
+    PaginationComponent,
+    SpinnerLoadingComponent
+    ],
   imports: [
     BrowserModule,
     HttpClientModule,

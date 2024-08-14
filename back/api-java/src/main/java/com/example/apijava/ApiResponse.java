@@ -12,6 +12,8 @@ public class ApiResponse<T> {
     private T data;
     private int code;
     private String message;
+    private int currentPage;
+    private int totalPages;
 
     public ApiResponse() {}
 
@@ -21,7 +23,14 @@ public class ApiResponse<T> {
         this.message = message;
     }
 
-    // Méthode statique pour encapsuler le try-catch
+    public ApiResponse(T data, int code, String message, int currentPage, int totalPages) {
+        this.data = data;
+        this.code = code;
+        this.message = message;
+        this.currentPage = currentPage;
+        this.totalPages = totalPages;
+    }
+
     public static <T> ApiResponse<T> execute(Supplier<T> supplier) {
         try {
             T data = supplier.get();
@@ -32,6 +41,19 @@ public class ApiResponse<T> {
             return new ApiResponse<>(null, HttpStatus.BAD_REQUEST.value(), "Invalid argument: " + ex.getMessage());
         } catch (Exception ex) {
             return new ApiResponse<>(null, HttpStatus.INTERNAL_SERVER_ERROR.value(), "An error occurred: " + ex.getMessage());
+        }
+    }
+
+    public static <T> ApiResponse<T> executeWithPagination(Supplier<T> supplier, int currentPage, int totalPages) {
+        try {
+            T data = supplier.get();
+            return new ApiResponse<>(data, HttpStatus.OK.value(), "Operation successful", currentPage, totalPages);
+        } catch (NoSuchElementException ex) {
+            return new ApiResponse<>(null, HttpStatus.NOT_FOUND.value(), "Resource not found: " + ex.getMessage(), currentPage, totalPages);
+        } catch (IllegalArgumentException ex) {
+            return new ApiResponse<>(null, HttpStatus.BAD_REQUEST.value(), "Invalid argument: " + ex.getMessage(), currentPage, totalPages);
+        } catch (Exception ex) {
+            return new ApiResponse<>(null, HttpStatus.INTERNAL_SERVER_ERROR.value(), "An error occurred: " + ex.getMessage(), currentPage, totalPages);
         }
     }
 }
