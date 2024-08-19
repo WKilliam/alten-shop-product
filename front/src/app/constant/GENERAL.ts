@@ -33,19 +33,31 @@ export class GENERAL {
           icon: 'cog'
         }
       ]
-    ]
+    ],
   ]);
 
 
   private textArraySortBy = [
-    { label: 'Code', url: 'code' },
-    { label: 'Name', url: 'name' },
-    { label: 'Price', url: 'price' },
-    { label: 'Category', url: 'category' },
-    { label: 'Quantity', url: 'quantity' },
-    { label: 'Inventory Status', url: 'inventory-status' },
-    { label: 'Rating', url: 'rating' }
+    {label: 'Code', url: 'code'},
+    {label: 'Name', url: 'name'},
+    {label: 'Price', url: 'price'},
+    {label: 'Category', url: 'category'},
+    {label: 'Quantity', url: 'quantity'},
+    {label: 'Inventory Status', url: 'inventory-status'},
+    {label: 'Rating', url: 'rating'}
   ];
+
+  private tabContentDefault = {
+    currentPage: 1,
+    elementForPage: 10,
+    itemOnRow: 5,
+    urlSearch: '',
+    search: '',
+    totalPages: 0,
+    elementPrintSize: 10,
+    elementPrintSizeMax: 0,
+    viewMode: true
+  };
 
   getText(key: string): string {
     return this.textMap.get(key);
@@ -57,5 +69,9 @@ export class GENERAL {
 
   getTextArraySortBy(): Array<{ label: string, url: string }> {
     return this.textArraySortBy;
+  }
+
+  getTabContentDefault() {
+    return this.tabContentDefault;
   }
 }

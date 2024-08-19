@@ -10,6 +10,13 @@ public interface ProductRepository extends JpaRepository<ProductModel, Long> {
     @Query("SELECT p FROM ProductModel p")
     Page<ProductModel> findAllProducts(Pageable pageable);
 
+//    @Query("SELECT p FROM ProductModel p WHERE " +
+//            "LOWER(p.name) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+//            "LOWER(p.description) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+//            "LOWER(p.category) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+//            "CAST(p.price AS string) LIKE :search")
+//    Page<ProductModel> findAllProductsSearch(Pageable pageable,String search);
+
     Page<ProductModel> findByCode(String code, Pageable pageable);
     Page<ProductModel> findByName(String name, Pageable pageable);
     Page<ProductModel> findByPrice(Double price, Pageable pageable);
@@ -17,4 +24,6 @@ public interface ProductRepository extends JpaRepository<ProductModel, Long> {
     Page<ProductModel> findByQuantity(Integer quantity, Pageable pageable);
     Page<ProductModel> findByInventoryStatus(String inventoryStatus, Pageable pageable);
     Page<ProductModel> findByRating(Integer rating, Pageable pageable);
+
+
 }

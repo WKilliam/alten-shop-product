@@ -28,9 +28,21 @@ public class ProductService {
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
                 products.getNumber() + 1,
-                products.getTotalPages()
+                products.getTotalPages(),
+                products.getTotalElements()
         );
     }
+
+//    public PageResult<ProductDTO> findAllWithSearch(Pageable pageable,String search) {
+//        Page<ProductModel> products = productRepository.findAllProductsSearch(pageable,search);
+//        return new PageResult<>(
+//                products.stream()
+//                        .map(productMapper::toDTO)
+//                        .collect(Collectors.toList()),
+//                products.getNumber() + 1,
+//                products.getTotalPages()
+//        );
+//    }
 
     public Optional<ProductDTO> findById(Long id) {
         return productRepository.findById(id).map(productMapper::toDTO);
@@ -43,7 +55,8 @@ public class ProductService {
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
                 products.getNumber() + 1,
-                products.getTotalPages()
+                products.getTotalPages(),
+                products.getTotalElements()
         );
     }
 
@@ -54,7 +67,8 @@ public class ProductService {
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
                 products.getNumber() + 1,
-                products.getTotalPages()
+                products.getTotalPages(),
+                products.getTotalElements()
         );
     }
 
@@ -65,7 +79,8 @@ public class ProductService {
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
                 products.getNumber() + 1,
-                products.getTotalPages()
+                products.getTotalPages(),
+                products.getTotalElements()
         );
     }
 
@@ -76,7 +91,8 @@ public class ProductService {
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
                 products.getNumber() + 1,
-                products.getTotalPages()
+                products.getTotalPages(),
+                products.getTotalElements()
         );
     }
 
@@ -87,7 +103,8 @@ public class ProductService {
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
                 products.getNumber() + 1,
-                products.getTotalPages()
+                products.getTotalPages(),
+                products.getTotalElements()
         );
     }
 
@@ -98,7 +115,8 @@ public class ProductService {
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
                 products.getNumber() + 1,
-                products.getTotalPages()
+                products.getTotalPages(),
+                products.getTotalElements()
         );
     }
 
@@ -109,7 +127,10 @@ public class ProductService {
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
                 products.getNumber() + 1,
-                products.getTotalPages()
+                products.getTotalPages(),
+                products.getTotalElements()
         );
     }
+
+
 }

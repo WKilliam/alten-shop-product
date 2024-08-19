@@ -1,54 +1,63 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { ProductModels } from '../../models/product/product.models';
-import { ResponseModel } from '../../models/response/response';
+import {Component, OnInit} from '@angular/core';
+import {ProductModels} from '../../models/product/product.models';
 import {DataManagerService} from '../../services/data.manager/data.manager.service';
+import {StatAppService} from '../../services/stat.app/stat.app.service';
+import {GENERAL} from '../../constant/GENERAL';
 
 @Component({
   selector: 'app-ui-table',
-  templateUrl: './table.component.html',
+  template: `
+    <div class="table-container">
+      <div class="table-scrollable" *ngIf="displayMode === true">
+        <table>
+          <tr *ngFor="let row of getRows(products)">
+            <td *ngFor="let product of row">
+              <app-ui-card-product [product]="product"></app-ui-card-product>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <ng-container *ngIf="displayMode === false">
+        <div class="table-band">
+          <app-ui-band-product *ngFor="let product of products" [products]="product"></app-ui-band-product>
+        </div>
+      </ng-container>
+    </div>
+  `,
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnChanges , OnInit{
+export class TableComponent implements OnInit {
 
-  @Input() data;
-  page = 0;
   displayMode = true;
-  private itemsElementsCount =  5;
   products: ProductModels[] = [];
+  private GENERAL = new GENERAL();
 
   constructor(
-    private readonly dataManager: DataManagerService
-  ) { }
-
-  ngOnInit(): void {
-    this.products = this.data.data;
-    this.page = this.data.page;
-    this.dataManager.setCurrentPage(this.page);
-    this.dataManager.setTotalPages(this.data.totalPages);
+    private readonly dataManager: DataManagerService,
+    private readonly statAppService: StatAppService
+  ) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.dataManager.getViewMode().subscribe((value) => {
-      this.displayMode = value;
+  ngOnInit(): void {
+
+    this.dataManager.getData().subscribe(response => {
+      this.products = response;
+    });
+
+    this.dataManager.getData().subscribe(value => {
+      this.products = value;
+    });
+
+    this.statAppService.getViewMode().subscribe(mode => {
+      this.displayMode = mode;
     });
   }
 
-  // private fetchProducts(): void {
-  //   const instanceItems = this.displayMode ? 20 : 40;
-  //   this.http.getProducts(this.page, instanceItems).subscribe((data: ResponseModel) => {
-  //     this.products = data.data;
-  //   });
-  // }
-
   getRows(products: ProductModels[]): ProductModels[][] {
     const rows: ProductModels[][] = [];
-    for (let i = 0; i < products.length; i += this.itemsElementsCount) {
-      rows.push(products.slice(i, i + this.itemsElementsCount));
+    for (let i = 0; i < products.length; i += this.GENERAL.getTabContentDefault().itemOnRow) {
+      rows.push(products.slice(i, i + this.GENERAL.getTabContentDefault().itemOnRow));
     }
     return rows;
   }
-
-
-
-
 }

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable} from "rxjs";
+import {map, Observable} from 'rxjs';
 import {ResponseModel} from '../../models/response/response';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class HttpService {
     let params = new HttpParams();
     if (page !== undefined && page !== null) {
       params = params.append('page', page.toString());
-    }else{
+    } else {
       params = params.append('page', '0');
     }
     params = params.append('size', size.toString());
@@ -28,17 +28,18 @@ export class HttpService {
   }
 
 
-  getProducts(page: number, size: number): Observable<ResponseModel>{
+  getProducts(page: number, size: number): Observable<ResponseModel> {
     const params = this.queryParamsConfig(page, size);
-    const options = { headers: this.headers, params };
-    return this.http.get(this.api, options) as Observable<ResponseModel>;
+    const options = {headers: this.headers, params};
+    return this.http.get<ResponseModel>(this.api, options);
   }
 
-  getSortBy(page: number, size: number, sort: string): Observable<ResponseModel>{
+  getSortBy(page: number, size: number, sortBy: string, value: string): Observable<ResponseModel> {
     const params = this.queryParamsConfig(page, size);
-    params.append('sort', sort);
+    params.append(sortBy, value);
+    const url = `${this.api}/search/${sortBy}`;
     const options = { headers: this.headers, params };
-    return this.http.get(`${this.api}/search/${sort}`, options) as Observable<ResponseModel>;
+    return this.http.get<ResponseModel>(url, options);
   }
 
 }

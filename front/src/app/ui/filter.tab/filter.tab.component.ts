@@ -1,7 +1,7 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {GENERAL} from '../../constant/GENERAL';
-import {DataManagerService} from '../../services/data.manager/data.manager.service';
+import {StatAppService} from '../../services/stat.app/stat.app.service';
 
 
 @Component({
@@ -12,29 +12,31 @@ import {DataManagerService} from '../../services/data.manager/data.manager.servi
 export class FilterTabComponent implements OnInit {
 
   form: FormGroup = new FormGroup({
-    search: new FormControl(''),
+    search: new FormControl({ value: '', disabled: true }),
     sort: new FormControl(''),
   });
   isGridView = true;
   protected options = new GENERAL().getTextArraySortBy();
 
-  constructor(private readonly dataManager: DataManagerService) {}
+  constructor(private readonly statAppService: StatAppService) {}
 
   ngOnInit(): void {
-
     this.form.get('sort')?.valueChanges.subscribe((value) => {
-      console.log('Sort changed:', value);
-      this.dataManager.setUrlSearch(value);
+      this.statAppService.setUrlSuffixForSort(value);
+      if (value !== '') {
+        this.form.get('search')?.enable();
+      } else {
+        this.form.get('search')?.disable();
+      }
     });
     this.form.get('search')?.valueChanges.subscribe((value) => {
-      console.log('Search changed:', value);
-      this.dataManager.setSearch(value);
+      this.statAppService.setSearch(value);
     });
   }
 
   toggleView() {
-    this.dataManager.setViewMode(!this.isGridView);
-    this.dataManager.getViewMode().subscribe((value) => {
+    this.statAppService.setViewMode(!this.isGridView);
+    this.statAppService.getViewMode().subscribe((value) => {
       this.isGridView = value;
     });
   }

@@ -25,11 +25,23 @@ public class ProductController {
         ApiResponse<List<ProductDTO>> response = ApiResponse.executeWithPagination(
                 pagedResult::getContent,
                 pagedResult.getCurrentPage(),
-                pagedResult.getTotalPages()
+                pagedResult.getTotalPages(),
+                pagedResult.getTotalElement()
         );
-
         return ResponseEntity.status(response.getCode()).body(response);
     }
+
+//    @GetMapping("/")
+//    public ResponseEntity<ApiResponse<List<ProductDTO>>> getAllProductsSearch(@RequestParam String search,Pageable pageable) {
+//        PageResult<ProductDTO> pagedResult = productService.findAllWithSearch(pageable,search);
+//        ApiResponse<List<ProductDTO>> response = ApiResponse.executeWithPagination(
+//                pagedResult::getContent,
+//                pagedResult.getCurrentPage(),
+//                pagedResult.getTotalPages()
+//        );
+//
+//        return ResponseEntity.status(response.getCode()).body(response);
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductDTO>> getProductById(@PathVariable Long id) {
@@ -44,7 +56,8 @@ public class ProductController {
         ApiResponse<List<ProductDTO>> response = ApiResponse.executeWithPagination(
                 pagedResult::getContent,
                 pagedResult.getCurrentPage(),
-                pagedResult.getTotalPages()
+                pagedResult.getTotalPages(),
+                pagedResult.getTotalElement()
         );
 
         return ResponseEntity.status(response.getCode()).body(response);
@@ -56,7 +69,8 @@ public class ProductController {
         ApiResponse<List<ProductDTO>> response = ApiResponse.executeWithPagination(
                 pagedResult::getContent,
                 pagedResult.getCurrentPage(),
-                pagedResult.getTotalPages()
+                pagedResult.getTotalPages(),
+                pagedResult.getTotalElement()
         );
 
         return ResponseEntity.status(response.getCode()).body(response);
@@ -68,7 +82,8 @@ public class ProductController {
         ApiResponse<List<ProductDTO>> response = ApiResponse.executeWithPagination(
                 pagedResult::getContent,
                 pagedResult.getCurrentPage(),
-                pagedResult.getTotalPages()
+                pagedResult.getTotalPages(),
+                pagedResult.getTotalElement()
         );
 
         return ResponseEntity.status(response.getCode()).body(response);
@@ -80,7 +95,8 @@ public class ProductController {
         ApiResponse<List<ProductDTO>> response = ApiResponse.executeWithPagination(
                 pagedResult::getContent,
                 pagedResult.getCurrentPage(),
-                pagedResult.getTotalPages()
+                pagedResult.getTotalPages(),
+                pagedResult.getTotalElement()
         );
 
         return ResponseEntity.status(response.getCode()).body(response);
@@ -92,7 +108,8 @@ public class ProductController {
         ApiResponse<List<ProductDTO>> response = ApiResponse.executeWithPagination(
                 pagedResult::getContent,
                 pagedResult.getCurrentPage(),
-                pagedResult.getTotalPages()
+                pagedResult.getTotalPages(),
+                pagedResult.getTotalElement()
         );
 
         return ResponseEntity.status(response.getCode()).body(response);
@@ -104,7 +121,8 @@ public class ProductController {
         ApiResponse<List<ProductDTO>> response = ApiResponse.executeWithPagination(
                 pagedResult::getContent,
                 pagedResult.getCurrentPage(),
-                pagedResult.getTotalPages()
+                pagedResult.getTotalPages(),
+                pagedResult.getTotalElement()
         );
 
         return ResponseEntity.status(response.getCode()).body(response);
@@ -116,7 +134,8 @@ public class ProductController {
         ApiResponse<List<ProductDTO>> response = ApiResponse.executeWithPagination(
                 pagedResult::getContent,
                 pagedResult.getCurrentPage(),
-                pagedResult.getTotalPages()
+                pagedResult.getTotalPages(),
+                pagedResult.getTotalElement()
         );
 
         return ResponseEntity.status(response.getCode()).body(response);

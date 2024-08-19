@@ -1,69 +1,189 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {Injectable, OnInit} from '@angular/core';
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  filter,
+  Observable,
+  takeWhile,
+  tap,
+  withLatestFrom
+} from 'rxjs';
+import {HttpService} from '../../core/http/http';
+import {StatAppService} from '../stat.app/stat.app.service';
+import {ResponseModel} from '../../models/response/response';
+import {ProductModels} from '../../models/product/product.models';
+import {debounceTime} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataManagerService {
 
-  private urlSearch = new BehaviorSubject<string>('');
-  private search = new BehaviorSubject<string>('');
-  private totalPages = new BehaviorSubject<number>(0);
-  private currentPage = new BehaviorSubject<number>(1);
-  private viewMode = new BehaviorSubject<boolean>(true);
+  private data = new BehaviorSubject<ProductModels[]>([]);
+  private initiliazed = true;
+  private initsearch = false;
 
-
-  constructor() { }
-
-  setUrlSearch(value: string): void {
-    this.urlSearch.next(value);
+  constructor(
+    private readonly http: HttpService,
+    private readonly statApp: StatAppService
+  ) {
+    this.watchStatAppChanges();
   }
 
-  getUrlSearch() {
-    return this.urlSearch.asObservable();
+  initCall() {
+    this.fetchProductAll(0, 10, true);
   }
 
-  setTotalPages(value: number): void {
-    this.totalPages.next(value);
+  private watchStatAppChanges(): void {
+      this.fetchCurrentPage();
+      this.fetchElementPrintSize();
+      this.fetchSearch();
+      this.fetchUrlSuffixForSort();
   }
 
-  getTotalPages() {
-    return this.totalPages.asObservable();
+  private fetchProductAll(page: number, size: number, init: boolean): void {
+    this.http.getProducts(page, size).subscribe(response => {
+      this.setData(response.data);
+      this.setStatApp(response.currentPage, response.totalPages, size, '', '', response.totalElement, init);
+    });
   }
 
-  setCurrentPage(value: number): void {
-    this.currentPage.next(value);
+  private fetchProductSortBy(page: number, size: number, sortBy: string, search: string): void {
+    this.http.getSortBy(page, size, sortBy, search).subscribe(response => {
+      this.setData(response.data);
+      this.setStatApp(response.currentPage, response.totalPages, size, search, sortBy, response.totalElement, false);
+    });
   }
 
-  getCurrentPage() {
-    return this.currentPage.asObservable();
+  setStatApp(currentPage: number, page: number, size: number, search: string, sortBy: string, sizeMax: number, init: boolean): void {
+    console.log('setStatApp currentPage', currentPage);
+    console.log('setStatApp elementPrintSize', size);
+    console.log('setStatApp search', search);
+    console.log('setStatApp urlSuffixForSort', sortBy);
+    if (init) {
+      this.statApp.setCurrentPage(currentPage);
+      this.statApp.setTotalPages(page);
+      this.statApp.setElementPrintSize(size);
+      this.statApp.setElementPrintSizeMax(sizeMax);
+      this.initiliazed = false;
+    } else {
+      this.initiliazed = true;
+      if (sortBy !== '' || search !== '') {
+        this.statApp.setCurrentPage(currentPage);
+        this.statApp.setTotalPages(page);
+        this.statApp.setElementPrintSize(size);
+        this.statApp.setElementPrintSizeMax(sizeMax);
+        this.statApp.setSearch(search);
+        this.statApp.setUrlSuffixForSort(sortBy);
+        this.initiliazed = false;
+      } else {
+        this.statApp.setCurrentPage(currentPage);
+        this.statApp.setTotalPages(page);
+        this.statApp.setElementPrintSize(size);
+        this.statApp.setElementPrintSizeMax(sizeMax);
+        this.initiliazed = false;
+      }
+    }
   }
 
-  setViewMode(value: boolean): void {
-    this.viewMode.next(value);
+  getData(): Observable<ProductModels[]> {
+    return this.data.asObservable();
   }
 
-  getViewMode() {
-    return this.viewMode.asObservable();
+  setData(value: ProductModels[]):
+    void {
+    this.data.next(value);
   }
 
-  toggleViewMode() {
-    this.viewMode.next(!this.viewMode.getValue());
+  fetchCurrentPage(): void {
+    this.statApp.getCurrentPage()
+      .pipe(
+        distinctUntilChanged(),
+        withLatestFrom(
+          this.statApp.getElementPrintSize().pipe(distinctUntilChanged()),
+          this.statApp.getSearch().pipe(debounceTime(300), distinctUntilChanged()),
+          this.statApp.getUrlSuffixForSort().pipe(distinctUntilChanged())
+        ),
+        filter(() => this.initiliazed === false)
+      )
+      .subscribe(([currentPage, elementPrintSize, search, urlSuffixForSort]) => {
+        // console.log('fetchCurrentPage currentPage', currentPage);
+        // console.log('fetchCurrentPage elementPrintSize', elementPrintSize);
+        // console.log('fetchCurrentPage search', search);
+        // console.log('fetchCurrentPage urlSuffixForSort', urlSuffixForSort);
+        if (urlSuffixForSort === '' && search === '') {
+          this.fetchProductAll(currentPage, elementPrintSize, false);
+        }else {
+          this.fetchProductSortBy(currentPage, elementPrintSize, urlSuffixForSort, search);
+        }
+      });
   }
 
-  setSearch(value: string): void {
-    this.search.next(value);
+  fetchElementPrintSize(): void {
+    this.statApp.getElementPrintSize()
+      .pipe(
+        distinctUntilChanged(),
+        withLatestFrom(
+          this.statApp.getCurrentPage().pipe(distinctUntilChanged()),
+          this.statApp.getSearch().pipe(debounceTime(300), distinctUntilChanged()),
+          this.statApp.getUrlSuffixForSort().pipe(distinctUntilChanged())
+        ),
+        filter(() => this.initiliazed === false)
+      )
+      .subscribe(([elementPrintSize, currentPage, search, urlSuffixForSort]) => {
+        // console.log('fetchElementPrintSize currentPage', currentPage);
+        // console.log('fetchElementPrintSize elementPrintSize', elementPrintSize);
+        // console.log('fetchElementPrintSize search', search);
+        // console.log('fetchElementPrintSize urlSuffixForSort', urlSuffixForSort);
+        if (urlSuffixForSort === '' && search === '') {
+          this.fetchProductAll(currentPage, elementPrintSize, false);
+        }else {
+          this.fetchProductSortBy(currentPage, elementPrintSize, urlSuffixForSort, search);
+        }
+      });
   }
 
-  getSearch() {
-    return this.search.asObservable();
+  fetchSearch(): void {
+    this.statApp.getSearch()
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        withLatestFrom(
+          this.statApp.getCurrentPage().pipe(distinctUntilChanged()),
+          this.statApp.getElementPrintSize().pipe(distinctUntilChanged()),
+          this.statApp.getUrlSuffixForSort().pipe(distinctUntilChanged())
+        ),
+        filter(() => this.initiliazed === false && this.initsearch === true)
+      )
+      .subscribe(([search, currentPage, elementPrintSize, urlSuffixForSort]) => {
+        // console.log('fetchSearch currentPage', currentPage);
+        // console.log('fetchSearch elementPrintSize', elementPrintSize);
+        // console.log('fetchSearch search', search);
+        // console.log('fetchSearch urlSuffixForSort', urlSuffixForSort);
+        this.fetchProductSortBy(currentPage, elementPrintSize, urlSuffixForSort, search);
+      });
+
   }
 
-  reset() {
-    this.urlSearch.next('');
-    this.totalPages.next(0);
-    this.currentPage.next(1);
-    this.viewMode.next(true);
+  fetchUrlSuffixForSort(): void {
+    this.statApp.getUrlSuffixForSort()
+      .pipe(
+        distinctUntilChanged(),
+        withLatestFrom(
+          this.statApp.getCurrentPage().pipe(distinctUntilChanged()),
+          this.statApp.getElementPrintSize().pipe(distinctUntilChanged()),
+          this.statApp.getSearch().pipe(debounceTime(300), distinctUntilChanged())
+        ),
+        filter(() => this.initiliazed === false)
+      )
+      .subscribe(([urlSuffixForSort, currentPage, elementPrintSize, search]) => {
+        this.initsearch = true;
+        // console.log('fetchUrlSuffixForSort currentPage', currentPage);
+        // console.log('fetchUrlSuffixForSort elementPrintSize', elementPrintSize);
+        // console.log('fetchUrlSuffixForSort search', search);
+        // console.log('fetchUrlSuffixForSort urlSuffixForSort', urlSuffixForSort);
+        this.fetchProductSortBy(currentPage, elementPrintSize, urlSuffixForSort, search);
+      });
   }
-
 }
