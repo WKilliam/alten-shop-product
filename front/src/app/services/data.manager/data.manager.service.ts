@@ -57,10 +57,6 @@ export class DataManagerService {
   }
 
   setStatApp(currentPage: number, page: number, size: number, search: string, sortBy: string, sizeMax: number, init: boolean): void {
-    console.log('setStatApp currentPage', currentPage);
-    console.log('setStatApp elementPrintSize', size);
-    console.log('setStatApp search', search);
-    console.log('setStatApp urlSuffixForSort', sortBy);
     if (init) {
       this.statApp.setCurrentPage(currentPage);
       this.statApp.setTotalPages(page);

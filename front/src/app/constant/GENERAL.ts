@@ -48,7 +48,7 @@ export class GENERAL {
   ];
 
   private tabContentDefault = {
-    currentPage: 1,
+    currentPage: 0,
     elementForPage: 10,
     itemOnRow: 5,
     urlSearch: '',

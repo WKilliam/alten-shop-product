@@ -27,7 +27,7 @@ public class ProductService {
                 products.stream()
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
-                products.getNumber() + 1,
+                products.getNumber(),
                 products.getTotalPages(),
                 products.getTotalElements()
         );
