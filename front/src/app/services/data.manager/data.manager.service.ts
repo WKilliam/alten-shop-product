@@ -1,17 +1,13 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {
   BehaviorSubject,
-  combineLatest,
   distinctUntilChanged,
   filter,
   Observable,
-  takeWhile,
-  tap,
   withLatestFrom
 } from 'rxjs';
 import {HttpService} from '../../core/http/http';
 import {StatAppService} from '../stat.app/stat.app.service';
-import {ResponseModel} from '../../models/response/response';
 import {ProductModels} from '../../models/product/product.models';
 import {debounceTime} from 'rxjs/operators';
 
@@ -36,10 +32,10 @@ export class DataManagerService {
   }
 
   private watchStatAppChanges(): void {
-      this.fetchCurrentPage();
-      this.fetchElementPrintSize();
-      this.fetchSearch();
-      this.fetchUrlSuffixForSort();
+    this.fetchCurrentPage();
+    this.fetchElementPrintSize();
+    this.fetchSearch();
+    this.fetchUrlSuffixForSort();
   }
 
   private fetchProductAll(page: number, size: number, init: boolean): void {
@@ -104,13 +100,9 @@ export class DataManagerService {
         filter(() => this.initiliazed === false)
       )
       .subscribe(([currentPage, elementPrintSize, search, urlSuffixForSort]) => {
-        // console.log('fetchCurrentPage currentPage', currentPage);
-        // console.log('fetchCurrentPage elementPrintSize', elementPrintSize);
-        // console.log('fetchCurrentPage search', search);
-        // console.log('fetchCurrentPage urlSuffixForSort', urlSuffixForSort);
         if (urlSuffixForSort === '' && search === '') {
           this.fetchProductAll(currentPage, elementPrintSize, false);
-        }else {
+        } else {
           this.fetchProductSortBy(currentPage, elementPrintSize, urlSuffixForSort, search);
         }
       });
@@ -128,13 +120,30 @@ export class DataManagerService {
         filter(() => this.initiliazed === false)
       )
       .subscribe(([elementPrintSize, currentPage, search, urlSuffixForSort]) => {
-        // console.log('fetchElementPrintSize currentPage', currentPage);
-        // console.log('fetchElementPrintSize elementPrintSize', elementPrintSize);
-        // console.log('fetchElementPrintSize search', search);
-        // console.log('fetchElementPrintSize urlSuffixForSort', urlSuffixForSort);
         if (urlSuffixForSort === '' && search === '') {
           this.fetchProductAll(currentPage, elementPrintSize, false);
-        }else {
+        } else {
+          this.fetchProductSortBy(currentPage, elementPrintSize, urlSuffixForSort, search);
+        }
+      });
+  }
+
+  fetchUrlSuffixForSort(): void {
+    this.statApp.getUrlSuffixForSort()
+      .pipe(
+        distinctUntilChanged(),
+        withLatestFrom(
+          this.statApp.getCurrentPage().pipe(distinctUntilChanged()),
+          this.statApp.getElementPrintSize().pipe(distinctUntilChanged()),
+          this.statApp.getSearch().pipe(debounceTime(300), distinctUntilChanged())
+        ),
+        filter(() => this.initiliazed === false)
+      )
+      .subscribe(([urlSuffixForSort, currentPage, elementPrintSize, search]) => {
+        this.initsearch = true;
+        if (search === '') {
+          this.fetchProductAll(currentPage, elementPrintSize, false);
+        } else {
           this.fetchProductSortBy(currentPage, elementPrintSize, urlSuffixForSort, search);
         }
       });
@@ -153,33 +162,8 @@ export class DataManagerService {
         filter(() => this.initiliazed === false && this.initsearch === true)
       )
       .subscribe(([search, currentPage, elementPrintSize, urlSuffixForSort]) => {
-        // console.log('fetchSearch currentPage', currentPage);
-        // console.log('fetchSearch elementPrintSize', elementPrintSize);
-        // console.log('fetchSearch search', search);
-        // console.log('fetchSearch urlSuffixForSort', urlSuffixForSort);
-        this.fetchProductSortBy(currentPage, elementPrintSize, urlSuffixForSort, search);
-      });
-
-  }
-
-  fetchUrlSuffixForSort(): void {
-    this.statApp.getUrlSuffixForSort()
-      .pipe(
-        distinctUntilChanged(),
-        withLatestFrom(
-          this.statApp.getCurrentPage().pipe(distinctUntilChanged()),
-          this.statApp.getElementPrintSize().pipe(distinctUntilChanged()),
-          this.statApp.getSearch().pipe(debounceTime(300), distinctUntilChanged())
-        ),
-        filter(() => this.initiliazed === false)
-      )
-      .subscribe(([urlSuffixForSort, currentPage, elementPrintSize, search]) => {
-        this.initsearch = true;
-        // console.log('fetchUrlSuffixForSort currentPage', currentPage);
-        // console.log('fetchUrlSuffixForSort elementPrintSize', elementPrintSize);
-        // console.log('fetchUrlSuffixForSort search', search);
-        // console.log('fetchUrlSuffixForSort urlSuffixForSort', urlSuffixForSort);
         this.fetchProductSortBy(currentPage, elementPrintSize, urlSuffixForSort, search);
       });
   }
+
 }

@@ -432,3 +432,171 @@ app-footer {
     left: 0 !important;
   }
 }
+
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: var(--primary-bg-color-light);
+  border-bottom: 1px solid #ccc;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+
+  &--default {
+    border: 1px solid var(--secondary-bg-color, #ccc);
+    background-color: var(--primary-bg-color-light, #fff);
+    color: var(--primary-font-color, #333);
+
+    &:hover {
+      background-color: var(--primary-bg-color, #f5f5f5);
+      border-color: var(--secondary-bg-color, #bbb);
+      color: var(--primary-font-color, #000);
+    }
+  }
+
+  &--edit {
+    background-color: var(--primary-color, #2251b1);
+    color: var(--primary-font-color-light, #fff);
+    border: 1px solid var(--primary-color, #2251b1);
+
+    &:hover {
+      background-color: var(--primary-color-hover, rgba(31, 81, 177, 0.9));
+      color: var(--primary-font-color-light, #fff);
+    }
+  }
+
+  &--delete {
+    background-color: var(--error-color, #dc3545);
+    color: #fff;
+    border: 1px solid var(--error-color, #dc3545);
+
+    &:hover {
+      background-color: var(--error-color-hover, #c0392b);
+      color: #fff;
+    }
+  }
+
+  &--config {
+    background-color: var(--primary-color, #2251b1);
+    color: var(--primary-font-color-light, #fff);
+    border: 1px solid var(--primary-color, #2251b1);
+    padding-right: 10px; /* Ajustement pour l'icône */
+    display: flex;
+    align-items: center;
+
+    .icon {
+      margin-right: 8px; /* Espace entre l'icône et le texte */
+      font-size: 16px;
+    }
+
+    &:hover {
+      background-color: var(--primary-color-hover, rgba(31, 81, 177, 0.9));
+      color: var(--primary-font-color-light, #fff);
+    }
+  }
+
+  &--edit-icon,
+  &--delete-icon {
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    font-size: 14px;
+
+    i {
+      font-size: 14px;
+    }
+  }
+
+  &--edit-icon {
+    background-color: var(--primary-color, #2251b1);
+    color: #fff;
+    border: 1px solid var(--primary-color, #2251b1);
+
+    &:hover {
+      background-color: var(--primary-color-hover, rgba(31, 81, 177, 0.9));
+    }
+  }
+
+  &--delete-icon {
+    background-color: var(--error-color, #dc3545);
+    color: #fff;
+    border: 1px solid var(--error-color, #dc3545);
+
+    &:hover {
+      background-color: var(--error-color-hover, #c0392b);
+    }
+  }
+}
+
+/* Mode Sombre */
+[data-dark-mode="dark"] {
+  .btn {
+    &--default {
+      border: 1px solid var(--secondary-bg-color, #3a4149);
+      background-color: var(--primary-bg-color-light, #202225);
+      color: var(--primary-font-color, #cfcfcf);
+
+      &:hover {
+        background-color: var(--primary-bg-color, #2c2f33);
+        border-color: var(--secondary-bg-color, #3a4149);
+        color: var(--secondary-font-color, whitesmoke);
+      }
+    }
+
+    &--edit,
+    &--edit-icon {
+      background-color: var(--primary-color, #4476db);
+      color: var(--primary-font-color-light, #fff);
+      border: 1px solid var(--primary-color, #4476db);
+
+      &:hover {
+        background-color: var(--primary-color-hover, rgba(68, 118, 219, 0.9));
+        color: var(--primary-font-color-light, #fff);
+      }
+    }
+
+    &--delete,
+    &--delete-icon {
+      background-color: var(--error-color, #dc3545);
+      color: var(--primary-font-color-light, #fff);
+      border: 1px solid var(--error-color, #dc3545);
+
+      &:hover {
+        background-color: var(--error-color-hover, #a93226);
+        color: var(--primary-font-color-light, #fff);
+      }
+    }
+
+    &--config {
+      background-color: var(--primary-color, #4476db);
+      color: var(--primary-font-color-light, #fff);
+      border: 1px solid var(--primary-color, #4476db);
+
+      .icon {
+        color: var(--primary-font-color-light, #fff);
+      }
+
+      &:hover {
+        background-color: var(--primary-color-hover, rgba(68, 118, 219, 0.9));
+        color: var(--primary-font-color-light, #fff);
+      }
+    }
+  }
+}

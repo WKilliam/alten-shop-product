@@ -59,7 +59,7 @@ public class ProductController {
                 pagedResult.getTotalPages(),
                 pagedResult.getTotalElement()
         );
-
+        System.out.println(response);
         return ResponseEntity.status(response.getCode()).body(response);
     }
 
@@ -72,7 +72,6 @@ public class ProductController {
                 pagedResult.getTotalPages(),
                 pagedResult.getTotalElement()
         );
-
         return ResponseEntity.status(response.getCode()).body(response);
     }
 
@@ -85,7 +84,6 @@ public class ProductController {
                 pagedResult.getTotalPages(),
                 pagedResult.getTotalElement()
         );
-
         return ResponseEntity.status(response.getCode()).body(response);
     }
 
@@ -98,7 +96,6 @@ public class ProductController {
                 pagedResult.getTotalPages(),
                 pagedResult.getTotalElement()
         );
-
         return ResponseEntity.status(response.getCode()).body(response);
     }
 
@@ -111,20 +108,19 @@ public class ProductController {
                 pagedResult.getTotalPages(),
                 pagedResult.getTotalElement()
         );
-
         return ResponseEntity.status(response.getCode()).body(response);
     }
 
-    @GetMapping("/search/inventoryStatus")
+    @GetMapping("/search/inventory-status")
     public ResponseEntity<ApiResponse<List<ProductDTO>>> getProductsByInventoryStatus(@RequestParam String inventoryStatus, Pageable pageable) {
-        PageResult<ProductDTO> pagedResult = productService.findByInventoryStatus(inventoryStatus, pageable);
+        String upperCaseInventoryStatus = inventoryStatus.toUpperCase();
+        PageResult<ProductDTO> pagedResult = productService.findByInventoryStatus(upperCaseInventoryStatus, pageable);
         ApiResponse<List<ProductDTO>> response = ApiResponse.executeWithPagination(
                 pagedResult::getContent,
                 pagedResult.getCurrentPage(),
                 pagedResult.getTotalPages(),
                 pagedResult.getTotalElement()
         );
-
         return ResponseEntity.status(response.getCode()).body(response);
     }
 
@@ -137,7 +133,6 @@ public class ProductController {
                 pagedResult.getTotalPages(),
                 pagedResult.getTotalElement()
         );
-
         return ResponseEntity.status(response.getCode()).body(response);
     }
 }

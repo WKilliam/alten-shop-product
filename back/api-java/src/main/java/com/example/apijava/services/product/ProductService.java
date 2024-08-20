@@ -49,24 +49,24 @@ public class ProductService {
     }
 
     public PageResult<ProductDTO> findByCode(String code, Pageable pageable) {
-        Page<ProductModel> products = productRepository.findByCode(code, pageable);
+        Page<ProductModel> products = productRepository.findByCodeStartingWith(code, pageable);
         return new PageResult<>(
                 products.stream()
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
-                products.getNumber() + 1,
+                products.getNumber(),
                 products.getTotalPages(),
                 products.getTotalElements()
         );
     }
 
     public PageResult<ProductDTO> findByName(String name, Pageable pageable) {
-        Page<ProductModel> products = productRepository.findByName(name, pageable);
+        Page<ProductModel> products = productRepository.findByNameStartingWith(name, pageable);
         return new PageResult<>(
                 products.stream()
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
-                products.getNumber() + 1,
+                products.getNumber() ,
                 products.getTotalPages(),
                 products.getTotalElements()
         );
@@ -78,19 +78,19 @@ public class ProductService {
                 products.stream()
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
-                products.getNumber() + 1,
+                products.getNumber() ,
                 products.getTotalPages(),
                 products.getTotalElements()
         );
     }
 
     public PageResult<ProductDTO> findByCategory(String category, Pageable pageable) {
-        Page<ProductModel> products = productRepository.findByCategory(category, pageable);
+        Page<ProductModel> products = productRepository.findByCategoryStartingWith(category, pageable);
         return new PageResult<>(
                 products.stream()
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
-                products.getNumber() + 1,
+                products.getNumber(),
                 products.getTotalPages(),
                 products.getTotalElements()
         );
@@ -102,19 +102,19 @@ public class ProductService {
                 products.stream()
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
-                products.getNumber() + 1,
+                products.getNumber(),
                 products.getTotalPages(),
                 products.getTotalElements()
         );
     }
 
     public PageResult<ProductDTO> findByInventoryStatus(String inventoryStatus, Pageable pageable) {
-        Page<ProductModel> products = productRepository.findByInventoryStatus(inventoryStatus, pageable);
+        Page<ProductModel> products = productRepository.findByInventoryStatusStartingWith(inventoryStatus, pageable);
         return new PageResult<>(
                 products.stream()
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
-                products.getNumber() + 1,
+                products.getNumber(),
                 products.getTotalPages(),
                 products.getTotalElements()
         );
@@ -126,7 +126,7 @@ public class ProductService {
                 products.stream()
                         .map(productMapper::toDTO)
                         .collect(Collectors.toList()),
-                products.getNumber() + 1,
+                products.getNumber(),
                 products.getTotalPages(),
                 products.getTotalElements()
         );

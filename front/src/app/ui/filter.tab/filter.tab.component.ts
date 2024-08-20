@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {GENERAL} from '../../constant/GENERAL';
-import {StatAppService} from '../../services/stat.app/stat.app.service';
-
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { GENERAL } from '../../constant/GENERAL';
+import { StatAppService } from '../../services/stat.app/stat.app.service';
 
 @Component({
   selector: 'app-ui-filter-tab',
@@ -22,13 +21,16 @@ export class FilterTabComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.get('sort')?.valueChanges.subscribe((value) => {
-      this.statAppService.setUrlSuffixForSort(value);
+      this.resetSearchField();
+
       if (value !== '') {
+        this.statAppService.setUrlSuffixForSort(value);
         this.form.get('search')?.enable();
       } else {
-        this.form.get('search')?.disable();
+        this.resetToInitialState();
       }
     });
+
     this.form.get('search')?.valueChanges.subscribe((value) => {
       this.statAppService.setSearch(value);
     });
@@ -41,4 +43,14 @@ export class FilterTabComponent implements OnInit {
     });
   }
 
+  private resetSearchField(): void {
+    this.form.get('search')?.setValue('');
+    this.statAppService.setSearch('');
+  }
+
+  private resetToInitialState(): void {
+    this.resetSearchField();
+    this.form.get('search')?.disable();
+    this.statAppService.resetUrlSuffixForSort();
+  }
 }

@@ -17,13 +17,15 @@ public interface ProductRepository extends JpaRepository<ProductModel, Long> {
 //            "CAST(p.price AS string) LIKE :search")
 //    Page<ProductModel> findAllProductsSearch(Pageable pageable,String search);
 
-    Page<ProductModel> findByCode(String code, Pageable pageable);
-    Page<ProductModel> findByName(String name, Pageable pageable);
+
+    Page<ProductModel> findByCodeStartingWith(String code, Pageable pageable);
+    Page<ProductModel> findByNameStartingWith(String name, Pageable pageable);
     Page<ProductModel> findByPrice(Double price, Pageable pageable);
-    Page<ProductModel> findByCategory(String category, Pageable pageable);
+    Page<ProductModel> findByCategoryStartingWith(String category, Pageable pageable);
     Page<ProductModel> findByQuantity(Integer quantity, Pageable pageable);
-    Page<ProductModel> findByInventoryStatus(String inventoryStatus, Pageable pageable);
+    Page<ProductModel> findByInventoryStatusStartingWith(String inventoryStatus, Pageable pageable);
     Page<ProductModel> findByRating(Integer rating, Pageable pageable);
+
 
 
 }

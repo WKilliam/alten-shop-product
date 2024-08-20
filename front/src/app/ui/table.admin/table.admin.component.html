@@ -1,0 +1,61 @@
+<div class="table-container">
+  <div class="table-wrapper">
+    <table>
+      <thead>
+      <tr>
+        <th class="checkbox-col"></th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Inventory</th>
+        <th>Actions</th>
+      </tr>
+      <tr class="filters" [formGroup]="formGroup">
+        <td></td>
+        <td>
+          <input
+            type="text"
+            placeholder="Filter by code"
+            formControlName="code" />
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Filter by name"
+            formControlName="name" />
+        </td>
+        <td>
+          <select formControlName="inventoryStatus">
+            <option value="">All</option>
+            <option value="In Stock">In Stock</option>
+            <option value="Low Stock">Low Stock</option>
+            <option value="Out of Stock">Out of Stock</option>
+          </select>
+        </td>
+        <td></td>
+      </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="table-body-wrapper">
+    <table>
+      <tbody>
+      <tr *ngFor="let product of productsTab">
+        <td class="checkbox-col">
+          <input type="checkbox" [(ngModel)]="product.selectedProduct" (click)="addOrRemoveProductCheckBox(product)" />
+        </td>
+        <td>{{ product.code }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.inventoryStatus }}</td>
+        <td class="actions-row">
+          <button class="btn--edit-icon" (click)="product.onEdit()">
+            <i class="pi pi-pencil"></i>
+          </button>
+          <button class="btn--delete-icon" (click)="product.onDelete()">
+            <i class="pi pi-trash"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -6,12 +6,3 @@ export interface StatAppModel {
   elementPrintSize: number;
   viewMode: boolean;
 }
-
-export interface CheckStatAppModel {
-  urlSearch: boolean;
-  search: boolean;
-  totalPages: boolean;
-  currentPage: boolean;
-  elementPrintSize: boolean;
-  viewMode: boolean;
-}

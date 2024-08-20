@@ -19,6 +19,9 @@ import { CardProductComponent } from './ui/card.product/card.product.component';
 import { BandProductComponent } from './ui/band.product/band.product.component';
 import { PaginationComponent } from './ui/pagination/pagination.component';
 import { SpinnerLoadingComponent } from './ui/spinner-loading/spinner-loading.component';
+import { BandEditProductComponent } from './ui/band.edit.product/band.edit.product.component';
+import { ModalProductComponent } from './ui/modal.product/modal.product.component';
+import { TableAdminComponent } from './ui/table.admin/table.admin.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { SpinnerLoadingComponent } from './ui/spinner-loading/spinner-loading.co
     CardProductComponent,
     BandProductComponent,
     PaginationComponent,
-    SpinnerLoadingComponent
+    SpinnerLoadingComponent,
+    BandEditProductComponent,
+    ModalProductComponent,
+    TableAdminComponent
     ],
   imports: [
     BrowserModule,

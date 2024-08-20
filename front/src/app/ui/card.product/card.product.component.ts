@@ -6,18 +6,18 @@ import { ProductModels } from '../../models/product/product.models';
   template: `
     <div class="card">
       <div class="card-header">
-        <p class="title">{{productName}}</p>
-        <p class="product-category">{{productCategory}}</p>
+        <p class="title">{{ productName }}</p>
+        <p class="product-category">{{ productCategory }}</p>
       </div>
       <div class="card-body">
-        <img [src]="productImage" alt="{{productName}}" class="product-image">
+        <img [src]="productImage" alt="{{ productName }}" class="product-image">
         <div class="info">
-          <p class="describe">{{productDescription}}</p>
+          <p class="describe">{{ productDescription }}</p>
           <div class="status-product">
-            <p class="product-inventory">{{productInventoryStatus}}</p>
-            <p class="product-price">{{productPrice | currency}}</p>
-            <button pButton icon="pi pi-shopping-cart" type="button" class="square-btn"></button>
+            <p class="product-inventory">{{ productInventoryStatus }}</p>
+            <p class="product-price">{{ productPrice | currency }}</p>
           </div>
+          <button pButton icon="pi pi-shopping-cart" type="button" class="square-btn"></button>
         </div>
       </div>
     </div>
@@ -34,8 +34,9 @@ export class CardProductComponent implements OnInit, OnChanges {
   productCategory: string;
   productInventoryStatus: string;
   productImage: string;
+  productCode = '123456';
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.updateProductProperties();
@@ -48,6 +49,7 @@ export class CardProductComponent implements OnInit, OnChanges {
   }
 
   private updateProductProperties(): void {
+    this.productCode = this.product?.code || '123456';
     this.productName = this.product?.name || 'Default Name';
     this.productDescription = this.product?.description || 'Default Description';
     this.productPrice = this.product?.price || 0;
