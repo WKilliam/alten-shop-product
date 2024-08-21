@@ -55,4 +55,6 @@ export class DataManagerAdminService {
       this.setProducts(response.data);
     });
   }
+
+
 }

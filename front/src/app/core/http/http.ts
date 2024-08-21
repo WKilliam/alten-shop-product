@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import {ResponseModel} from '../../models/response/response';
+import {ProductModels} from "../../models/product/product.models";
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,23 @@ export class HttpService {
     const options = {headers: this.headers, params};
     return this.http.get<ResponseModel>(url, options);
   }
+
+  postEditProduct(id: ProductModels) {
+
+  }
+
+  postEditProductTab(ids: ProductModels[]) {
+
+  }
+
+  deleteProduct(id: ProductModels) {
+
+  }
+
+  deleteProductTab(ids: ProductModels[]) {
+
+  }
+
+
 
 }

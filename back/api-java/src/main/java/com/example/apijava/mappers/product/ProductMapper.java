@@ -37,4 +37,19 @@ public class ProductMapper {
         productModel.setRating(dto.getRating());
         return productModel;
     }
+
+    public ProductModel toModel(ProductDTO product) {
+        ProductModel productModel = new ProductModel();
+        productModel.setId(product.getId());
+        productModel.setCode(product.getCode());
+        productModel.setName(product.getName());
+        productModel.setDescription(product.getDescription());
+        productModel.setImage(product.getImage());
+        productModel.setPrice(product.getPrice());
+        productModel.setCategory(product.getCategory());
+        productModel.setQuantity(product.getQuantity());
+        productModel.setInventoryStatus(product.getInventoryStatus());
+        productModel.setRating(product.getRating());
+        return productModel;
+    }
 }

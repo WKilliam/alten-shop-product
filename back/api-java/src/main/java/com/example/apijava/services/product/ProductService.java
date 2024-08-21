@@ -133,4 +133,16 @@ public class ProductService {
     }
 
 
+    public PageResult<ProductDTO> editProduct(ProductDTO product) {
+        ProductModel productModel = productMapper.toModel(product);
+        productRepository.save(productModel);
+        return new PageResult<>(
+                productRepository.findAll().stream()
+                        .map(productMapper::toDTO)
+                        .collect(Collectors.toList()),
+                0,
+                1,
+                productRepository.findAll().size()
+        );
+    }
 }

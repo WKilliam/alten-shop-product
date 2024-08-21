@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface ProductRepository extends JpaRepository<ProductModel, Long> {
 
     @Query("SELECT p FROM ProductModel p")
@@ -26,6 +28,12 @@ public interface ProductRepository extends JpaRepository<ProductModel, Long> {
     Page<ProductModel> findByInventoryStatusStartingWith(String inventoryStatus, Pageable pageable);
     Page<ProductModel> findByRating(Integer rating, Pageable pageable);
 
+    // Pour sauvegarder (modifier ou ajouter) un seul produit
+    @Override
+    ProductModel save(ProductModel product);
+
+    // Delete a product by id
+    void deleteById(Long id);
 
 
 }
