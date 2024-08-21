@@ -1,24 +1,15 @@
 package com.example.apijava.repositories.product;
+
 import com.example.apijava.models.product.ProductModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
-
 public interface ProductRepository extends JpaRepository<ProductModel, Long> {
 
     @Query("SELECT p FROM ProductModel p")
     Page<ProductModel> findAllProducts(Pageable pageable);
-
-//    @Query("SELECT p FROM ProductModel p WHERE " +
-//            "LOWER(p.name) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
-//            "LOWER(p.description) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
-//            "LOWER(p.category) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
-//            "CAST(p.price AS string) LIKE :search")
-//    Page<ProductModel> findAllProductsSearch(Pageable pageable,String search);
-
 
     Page<ProductModel> findByCodeStartingWith(String code, Pageable pageable);
     Page<ProductModel> findByNameStartingWith(String name, Pageable pageable);
@@ -28,12 +19,7 @@ public interface ProductRepository extends JpaRepository<ProductModel, Long> {
     Page<ProductModel> findByInventoryStatusStartingWith(String inventoryStatus, Pageable pageable);
     Page<ProductModel> findByRating(Integer rating, Pageable pageable);
 
-    // Pour sauvegarder (modifier ou ajouter) un seul produit
-    @Override
-    ProductModel save(ProductModel product);
 
-    // Delete a product by id
-    void deleteById(Long id);
 
 
 }
